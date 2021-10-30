@@ -1,0 +1,35 @@
+sbatch -o /projects1/users/huebler/database_analysis_pipeline/bacterial_ad.log -e/projects1/users/huebler/database_analysis_pipeline/bacterial_ad.err -c 64 -p supercruncher --wrap="/projects1/tools/java/amazon-corretto-11.0.5.10.1-linux-x64/bin/java -jar /projects1/users/huebler/database_analysis_pipeline/database_downloader.jar -m adapter_clean -o /projects1/users/huebler/database_analysis_pipeline/downsample_test/ -p bacteria --threads 64 -i /projects1/users/huebler/database_analysis_pipeline/downsample_test_cr/bacteria/index.txt"
+
+sbatch -o /projects1/users/huebler/database_analysis_pipeline/bacterial_crea.log -e/projects1/users/huebler/database_analysis_pipeline/bacterial_crea.err -c 64 -p supercruncher --wrap="/projects1/tools/java/amazon-corretto-11.0.5.10.1-linux-x64/bin/java -jar /projects1/users/huebler/database_analysis_pipeline/database_downloader.jar -m create -o /projects1/users/huebler/database_analysis_pipeline/downsample_test/ --threads 64 -i /projects1/users/huebler/database_analysis_pipeline/downsample_test_cr/bacteria/index.txt --numReads 5000 --format fasta"
+
+
+
+sbatch -o /projects1/users/huebler/Iceman/malt/HOPSmalt.log -c 64 --mem 1000000 --job-name HOPSmalt -p supercruncher --wrap="/projects1/clusterhomes/huebler/malt/malt-run -J-Xmx1000G -d projects1/users/huebler/database_analysis_pipeline//projects1/users/huebler/database_analysis_pipeline/malt_db/ -i /projects1/users/huebler/database_analysis_pipeline/downsample_test/simulatedData/* -o -o /projects1/users/huebler/database_analysis_pipeline/downsample_test/malt-out/ -m BlastN -at SemiGlobal --memoryMode load -t 32 -sup 1 -mq 100 -top 1 -mpi 90.0 -v --replicateQueryCache --ced"
+
+sbatch -o /projects1/users/huebler/database_analysis_pipeline/malt.out -e /projects1/users/huebler/database_analysis_pipeline/malt.err -p supercruncher -c 64 --mem=500000 --wrap="java -jar /projects1/users/huebler/database_analysis_pipeline/MaltExtract1.7.jar -f assignment -i /projects1/users/huebler/database_analysis_pipeline/downsample_test/simulatedData/* -o /projects1/users/huebler/database_analysis_pipeline/downsample_test/malt-out/ -p 64"
+
+
+#SBATCH --mem 300000
+#SBATCH --job-name HOPSmalt
+#SBATCH -p supercruncher
+sbatch -o /projects1/users/huebler/database_analysis_pipeline/malt_test.log -e /projects1/users/huebler/database_analysis_pipeline/malt_test.err -c 24 --mem 400000 -p supercruncher --wrap="/projects1/clusterhomes/huebler/malt/malt-run -J-Xmx400G -d /projects1/users/huebler/database_analysis_pipeline/malt_db2/ -i /projects1/users/huebler/database_analysis_pipeline/downsample_test/simulatedData/Yersinia_sp._KBS0713_strain_KBS0713_ASM593789v2_1179669.fna.gz.simulated.fasta -o /projects1/users/huebler/database_analysis_pipeline/downsample_test/malt-out_current/ -m BlastN -at SemiGlobal --memoryMode load -t 24 -sup 1 -mq 100 -top 1 -mpi 90.0 -v --replicateQueryCache --cladeExclusion"
+
+DL  19602315           wrap       long                                                                                                                                                                                                               0 1-02:04:08  COMPLETED      0:0
+REF FIL 19652198           wrap supercrun+                                                                                                                                                                                                               0 1-03:59:30  COMPLETED      0:0
+AD_REM  19662076           wrap supercrun+                                                                                                                                                                                                               0 2-18:11:18
+BUILD DB 19706960     build_fi_+ supercrun+                                                                                                                                                                                                               0   06:10:28
+Simulated Data 19724719           wrap supercrun+                                                                                                                                                                                                               0 6-20:33:04
+
+
+sbatch -o /projects1/users/huebler/database_analysis_pipeline/mex.log -e/projects1/users/huebler/database_analysis_pipeline/mex.err -c 64 -t 48:00:00 -p medium --wrap="java -jar /projects1/users/huebler/database_analysis_pipeline/MaltExtract1.7.jar -f assignment -o /projects1/users/huebler/database_analysis_pipeline/taxonomic-test-2020 -i /projects1/users/huebler/database_analysis_pipeline/malt-out_current"
+
+
+cat /projects1/users/huebler/database_analysis_pipeline/malt_test.err
+
+
+20129924     20129924       HOPSmalt supercrun+                                                                                                                                                                                                               0 25-19:21:58  COMPLETED      0:0                  Unknown       Unknown       Unknown         0n
+22560959     22560959     getTaxono+     medium                                                                                                                                                                                                               0   03:35:23  COMPLETED      0:0                  Unknown       Unknown       Unknown         0n
+
+
+sbatch -o /projects1/users/huebler/database_analysis_pipeline/bacterial_ass.log -e/projects1/users/huebler/database_analysis_pipeline/bacterial_ass.err -c 4 -p supercruncher --wrap="/projects1/tools/java/amazon-corretto-11.0.5.10.1-linux-x64/bin/java -jar /projects1/users/huebler/database_analysis_pipeline/database_downloader.jar -m create -o /projects1/users/huebler/database_analysis_pipeline/downsample_test/ --threads 4 -i /projects1/users/huebler/database_analysis_pipeline/downsample_test_cr/bacteria/index.txt --pathToMaltExAssignment /projects1/users/huebler/database_analysis_pipeline/taxonomic-test-2020/AssingedNodes.txt"
+

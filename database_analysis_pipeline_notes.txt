@@ -1,0 +1,10 @@
+from ete3 import NCBITaxa
+ncbi = NCBITaxa()
+ncbi.update_taxonomy_database()
+
+tree = ncbi.get_topology([1], intermediate_nodes=True)
+
+
+tree.write(format=1, outfile="‎⁨/Users⁩/huebler⁩/Dektop/ncbi.tre")
+
+CREATE TABLE ncbi_map AS SELECT taxid, spname FROM species
